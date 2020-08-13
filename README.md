@@ -1,0 +1,2 @@
+# BotCorn
+BotCorn Discord bot
