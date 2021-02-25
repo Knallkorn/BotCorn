@@ -95,10 +95,7 @@ async def dice(ctx, sides=6, num=1):
         prefix = 'You rolled a total of '
     
     await ctx.send(prefix + str(result))
-<<<<<<< Updated upstream
-    
-=======
-
+  
 @bot.command(name='magic', help='bippity boppity boo', aliases=('bippity','alakazam','shazam'))
 async def magic(ctx):
     await ctx.send(':cloud: poof :cloud:')
@@ -114,7 +111,5 @@ async def pet(ctx):
     petsfile.write(str(pets))
     petsfile.close()
     await ctx.send('The boi has been petted ' + str(pets) + ' times') 
-
->>>>>>> Stashed changes
 
 bot.run(TOKEN)
