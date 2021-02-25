@@ -12,6 +12,9 @@ bot = commands.Bot(command_prefix='~')
 
 startTime = str(datetime.datetime.now())[0:16]
 
+petsfilepath = here = os.path.dirname(os.path.abspath(__file__))
+petsfiledir = os.path.join(here, 'pets.txt')
+
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Game('Grilling some cobs'))
@@ -48,7 +51,7 @@ async def drink(ctx):
               'an alternate universe where Canada and the Bahamas switched places in 86 BCE',
               'a thick anime waifu',
               "the dank corner of a sex offender's crack den",
-              'a the stomach of a small child',
+              'the stomach of a small child',
               'an as-of-yet unknown star system inhabited by phallic aliens',
               'a watermelon',
               'a fondue fountain filled with urine',
@@ -59,8 +62,8 @@ async def drink(ctx):
 
 @bot.command(name='corn', help='corn')
 async def corn(ctx, number=1):
-    if number > 100:
-        number = 100
+    if number > 150:
+        number = 150
     response = ''
     for i in range(0,number):
         response += ':corn:'
@@ -69,11 +72,11 @@ async def corn(ctx, number=1):
 
 @bot.command(name='uptime', help='see when the bot last restarted', aliases=('starttime','restarttime'))
 async def uptime(ctx):
-    await ctx.send(startTime)
+    await ctx.send('Last restarted at: ' + startTime)
 
 @bot.command(name='dice', help='roll some dice', aliases=('chance','die'))
 async def dice(ctx, sides=6, num=1):
-    result = 0
+    result = 1
 
     if num > 100:
         await ctx.send('You rolled too many dice and lost them all!')
@@ -92,6 +95,26 @@ async def dice(ctx, sides=6, num=1):
         prefix = 'You rolled a total of '
     
     await ctx.send(prefix + str(result))
+<<<<<<< Updated upstream
     
+=======
+
+@bot.command(name='magic', help='bippity boppity boo', aliases=('bippity','alakazam','shazam'))
+async def magic(ctx):
+    await ctx.send(':cloud: poof :cloud:')
+
+@bot.command(name='pet', help='pet the boi', aliases=('pat','bonk'))
+async def pet(ctx):
+    petsfile = open(petsfiledir, 'r')
+    pets = petsfile.read()
+    petsfile.close()
+    pets = int(pets)
+    pets += 1
+    petsfile = open(petsfiledir, 'w')
+    petsfile.write(str(pets))
+    petsfile.close()
+    await ctx.send('The boi has been petted ' + str(pets) + ' times') 
+
+>>>>>>> Stashed changes
 
 bot.run(TOKEN)
