@@ -1,19 +1,24 @@
 import os
 import datetime
+import time
 import random
 from dotenv import load_dotenv
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
+from discord.utils import get
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
-bot = commands.Bot(command_prefix='~')
+intents = discord.Intents.all()
+bot = commands.Bot(command_prefix='~',intents=intents)
 
 startTime = str(datetime.datetime.now())[0:16]
 
 petsfilepath = here = os.path.dirname(os.path.abspath(__file__))
 petsfiledir = os.path.join(here, 'pets.txt')
+
+cooldown = {'annoy': 0}
 
 @bot.event
 async def on_ready():
@@ -111,5 +116,16 @@ async def pet(ctx):
     petsfile.write(str(pets))
     petsfile.close()
     await ctx.send('The boi has been petted ' + str(pets) + ' times') 
+
+@bot.command(name='annoy', help='annoy someone', aliases=('ping','@','bruh'))
+async def annoy(ctx):
+    if (time.time() - cooldown['annoy']) > 600:
+        curGuild = ctx.guild.id
+        ping = await ctx.send('<@' + str(ctx.guild.members[random.choice(range(0,len(ctx.guild.members)))].id) + '>')
+        ping_id = ping.id
+        await ping.delete()
+        cooldown['annoy'] = time.time()
+    else:
+        await ctx.send("You can't ping anyone for another " + str(600 - round((time.time() - cooldown['annoy']))) + ' seconds')
 
 bot.run(TOKEN)
