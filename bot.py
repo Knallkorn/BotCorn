@@ -23,7 +23,16 @@ cooldown = {'annoy': 0}
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Game('Grilling some cobs'))
+
+@bot.event
+async def on_connect():
     print(f'{bot.user.name} has connected to Discord')
+
+@bot.event
+async def on_message_delete(message):
+    if message.author.name != 'BotCorn' and message.author.name != 'BotCornDev':
+        print(message.author)
+        await message.channel.send(message.author.name + ' just deleted a message that said: ' + message.content)
 
 @bot.command(name='drink', help='take a drink from somewhere', aliases=('thirst','slurp'))
 async def drink(ctx):
@@ -103,7 +112,7 @@ async def dice(ctx, sides=6, num=1):
   
 @bot.command(name='magic', help='bippity boppity boo', aliases=('bippity','alakazam','shazam'))
 async def magic(ctx):
-    await ctx.send(':cloud: poof :cloud:')
+    poof = await ctx.send(':cloud: poof :cloud:')
 
 @bot.command(name='pet', help='pet the boi', aliases=('pat','bonk'))
 async def pet(ctx):
