@@ -23,15 +23,22 @@ cooldown = {'annoy': 0}
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Game('Grilling some cobs'))
+    print(f'{bot.user.name} is now ready')
 
 @bot.event
 async def on_connect():
     print(f'{bot.user.name} has connected to Discord')
 
 @bot.event
+async def on_message(message):
+    if message.author.id != 742641971973324891 and message.author.id != 743436583625162813:
+        messageLower = message.content.lower()
+        if 'corn' in messageLower:
+            await message.channel.send('yo did someone say corn')
+
+@bot.event
 async def on_message_delete(message):
-    if message.author.name != 'BotCorn' and message.author.name != 'BotCornDev':
-        print(message.author)
+    if message.author.id != 742641971973324891 and message.author.id != 743436583625162813:
         await message.channel.send(message.author.name + ' just deleted a message that said: ' + message.content)
 
 @bot.command(name='drink', help='take a drink from somewhere', aliases=('thirst','slurp'))
